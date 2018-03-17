@@ -1,0 +1,8 @@
+args = sys.argv[1:]
+c = args.index('-c')
+d = args.index('-d')
+o = args.index('-o')
+configfile = args[c+1]
+userdatefile = args[d+1]
+incometax = args[o+1] 
+print(configfile,userdatefile,incometax)
