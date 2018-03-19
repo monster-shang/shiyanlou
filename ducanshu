@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+import sys
+import csv
+try:
+    class Arge(object):
+        def __init__(self):
+            self.args = sys.argv[1:]
+        def config(self):        
+            index = self.args.index('-c')
+            configfile = self.args[index+1]
+            return configfile
+        def user(self):
+            index = self.args.index('-d')
+            userfile = self.args[index+1]
+            return userfile
+        def gongzi(self):
+            index = self.args.index('-o')
+            gongzifile = self.args[index+1]
+            return gongzifile
+except:
+    print('Parameter Error')
+arg = Arge()
+configfile=arg.config()
+userfile = arg.user()
+gongzifile = arg.gongzi()
+print(configfile,userfile,gongzifile)
