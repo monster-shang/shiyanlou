@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv
 import sys
+import pdb
 try:
     class Arge(object):
         def __init__(self):
@@ -30,8 +31,7 @@ class Config(object):
             for x in file:
                 key,value = x.split('=')
                 key = key.strip()
-                value = float(value)
-                value = int(value)
+                value = float(value.strip())
                 self.config[key] = value
     def JiShuL(self):
         return self.config['JiShuL']
@@ -65,11 +65,11 @@ class Money(object):
             JiShu = JiShuL
         elif JiShu > JiShuH:
             JiShu = JiShuH
-        print(JiShu)
         shebao = JiShu*(YangLao+YiLiao+ShiYe+GongShang+ShengYu+GongJiJin)
-        self.shebao = shebao
+        
+        return shebao
     def jiaoshui(self,gongzi):
-        a = gongzi - self.shebao - 3500
+        a = gongzi - self.shebao(gongzi) - 3500
         if a <= 0:
             c = 0
         elif a <= 1500:
@@ -86,13 +86,11 @@ class Money(object):
             c = a*0.35-5505
         elif 80000<a:
             c = a*0.45-13505
-        jiaoshui = format(c,".2f")
-        print(jiaoshui)
-        self.jiaoshui = c
+        return c
     def shuihou(self,gongzi):
-        shuihou = gongzi - self.shebao - self.jiaoshui
+        shuihou = gongzi - self.shebao(gongzi) - self.jiaoshui(gongzi)
         shuihou = format(shuihou,".2f")
-        print(shuihou)
+        return shuihou
 Money= Money()
 class UserData(object):
     def __init__(self):
@@ -104,13 +102,20 @@ class UserData(object):
                 gz = int(gz)
                 yuanzu = (gonghao,gz)
                 self.userdata.append(yuanzu)
-        print(self.userdata)
     def jisuan(self):
-        for y in self.userdata:
-            gonghao = y[0]
-            gz = y[1]
-            Money.shebao(gz)
-            print(gonghao,gz)
+        shuchu=[]
+        for x in self.userdata:
+            gonghao = x[0]
+            gongzi = x[1]
+            b = Money.shebao(gongzi)
+            c = Money.jiaoshui(gongzi)
+            d = Money.shuihou(gongzi)
+            z=(gonghao,gongzi,b,c,d)
+            shuchu.append(z)
+            print(shuchu)
+            
 UserData = UserData()
 UserData.jisuan()
+
+
 
