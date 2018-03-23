@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import csv
 import sys
-import pdb
 try:
     class Arge(object):
         def __init__(self):
@@ -110,10 +109,8 @@ class UserData(object):
             b = Money.shebao(gongzi)
             c = Money.jiaoshui(gongzi)
             d = Money.shuihou(gongzi)
-            z=(gonghao,gongzi,b,c,d)
-            shuchu.append(z)
-            print(shuchu)
-            
+            with open(gongzifile,'a') as file:
+                file.write(str(gonghao)+','+str(gongzi)+','+str(b)+','+str(c)+','+str(d)+'\n')
 UserData = UserData()
 UserData.jisuan()
 
