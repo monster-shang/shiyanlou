@@ -2,10 +2,13 @@
 # -*- coding:utf-8 -*-
 from flask import Flask,render_template,abort
 from flask_sqlalchemy import SQLAlchemy
+from pymongo import MongoClient
 from datetime import datetime
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root@localhost/shiyanlou'
+client = MongoClient('127.0.0.1',27017)
+nsdb = client.shiyanlou
 db = SQLAlchemy(app)
 class File(db.Model):
     __tablename__= 'file'
@@ -15,6 +18,24 @@ class File(db.Model):
     category_id = db.Column(db.Integer,db.ForeignKey('category.id'))
     category = db.relationship('Category')
     content = db.Column(db.Text)
+    def add_tag(self,tag_name):
+        id_tag = nsdb.user.find_one({'file_id':self.id})
+        if id_tag:
+            tag = id_tag['tags']
+            tag.append(tag_name)
+            nsdb.user.update_one({'file_id':self.id},{'$set':{'tags':tag}})
+        else:
+            id_tag = {'file_id':self.id,'tags':[tag_name]}
+            nsdb.user.insert_one(id_tag)
+    def remove_tag(self,tag_name):
+        id_tag = nsdb.user.find_one({'file_id':self.id})
+        tag = id_tag['tags']
+        tag.remove(tag_name)
+        nsdb.user.update_one({'file_id':self.id},{'$set':{'tags':tag}})
+    @property
+    def tag(self):
+        id_tag = nsdb.user.find_one({'file_id':self.id})
+        return id_tag['tags']
     def __init__(self,title,created_time,category,content):
         self.title = title
         self.created_time = created_time
