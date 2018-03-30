@@ -24,18 +24,24 @@ class File(db.Model):
             tag = id_tag['tags']
             tag.append(tag_name)
             nsdb.user.update_one({'file_id':self.id},{'$set':{'tags':tag}})
+            return tag
         else:
-            id_tag = {'file_id':self.id,'tags':[tag_name]}
-            nsdb.user.insert_one(id_tag)
+            tag = [tag_name]
+            nsdb.user.insert_one({'file_id':self.id,'tags':tag})
+        return tag
     def remove_tag(self,tag_name):
         id_tag = nsdb.user.find_one({'file_id':self.id})
         tag = id_tag['tags']
         tag.remove(tag_name)
         nsdb.user.update_one({'file_id':self.id},{'$set':{'tags':tag}})
+        return tag
     @property
-    def tag(self):
+    def tags(self):
         id_tag = nsdb.user.find_one({'file_id':self.id})
-        return id_tag['tags']
+        if id_tag:
+            return id_tag['tags']
+        else:
+            return []
     def __init__(self,title,created_time,category,content):
         self.title = title
         self.created_time = created_time
