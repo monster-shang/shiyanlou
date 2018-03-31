@@ -1,4 +1,0 @@
-{% for File in list %}
-<p><a href="{{url_for('file',file_id=File.id)}}">{{File.title}}</a></p>
-{% endfor %}
-
