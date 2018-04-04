@@ -28,6 +28,7 @@ def split():
         wb = Workbook()
         year_sheet = wb.active
         year_sheet.title = year
+        year_sheet.append(["创建时间","课程名称","学习人数","学习时间"])
         for item in combine_sheet.values:
             if item[0] != "创建时间":
                 if item[0].strftime('%Y') == year:
