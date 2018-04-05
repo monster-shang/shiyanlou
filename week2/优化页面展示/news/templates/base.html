@@ -1,0 +1,13 @@
+<head>
+    <link href="{{ url_for('static', filename="bootstrap-3.3.7-dist/css/bootstrap.min.css") }}" rel="stylesheet">
+</head>
+<body>
+    <script src="{{ url_for('static', filename="bootstrap-3.3.7-dist/js/bootstrap.min.js") }}"></script>
+</body>
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="{{url_for('index')}}">Home</a></li>
+  <li role="presentation"><a href="#">Profile</a></li>
+  <li role="presentation"><a href="#">Messages</a></li>
+</ul>
+{% block head %}{% endblock %}
+{% block content %}{% endblock %}
