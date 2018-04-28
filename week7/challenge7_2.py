@@ -18,14 +18,20 @@ def co2_gdp_plot():
     df.columns=['CO2-SUM','GDP-SUM']
     df = df.replace({pd.np.NaN:0})
     df_min_max = (df-df.min())/(df.max()-df.min())
-    df_min_max.plot(kind='line',title='GDP-CO2')
-
-
-
-    fig = plt.plot()
-
-
-
-    china = [,]
+    fig = plt.subplot()
+    df_min_max.plot(kind='line',title='GDP-CO2',ax=fig)
+    indexs = []
+    countries = []
+    for i in range(len(df_min_max)):
+        if df_min_max.index[i] in a:
+            countries.append(df_min_max.index[i])
+            indexs.append(i)
+    plt.xticks(indexs,countries,rotation='vertical')
+    plt.xlabel('Countries')
+    plt.ylabel('Values')
+    plt.show()
+    Co2 = ('%.3f') % df_min_max.loc['CHN','CO2-SUM']
+    Gdp = ('%.3f') % df_min_max.loc['CHN','GDP-SUM']
+    china = [Co2,Gdp]
     return fig,china
 
