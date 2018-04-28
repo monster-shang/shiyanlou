@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 def co2_gdp_plot():
     df_climate = pd.read_excel('ClimateChange.xlsx',sheetname='Data')
@@ -20,18 +21,22 @@ def co2_gdp_plot():
     df_min_max = (df-df.min())/(df.max()-df.min())
     fig = plt.subplot()
     df_min_max.plot(kind='line',title='GDP-CO2',ax=fig)
+    country_list = ['CHN','USA','GBR','FRA','RUS']
     indexs = []
     countries = []
     for i in range(len(df_min_max)):
-        if df_min_max.index[i] in a:
+        if df_min_max.index[i] in country_list:
             countries.append(df_min_max.index[i])
             indexs.append(i)
     plt.xticks(indexs,countries,rotation='vertical')
     plt.xlabel('Countries')
     plt.ylabel('Values')
     plt.show()
-    Co2 = ('%.3f') % df_min_max.loc['CHN','CO2-SUM']
-    Gdp = ('%.3f') % df_min_max.loc['CHN','GDP-SUM']
+    Co2 = df_min_max.loc['CHN','CO2-SUM']
+    Co2 = round(Co2,3)
+    Gdp = df_min_max.loc['CHN','GDP-SUM']
+    Gdp = round(Gdp,3)
     china = [Co2,Gdp]
     return fig,china
-
+if __name__=='__main__':
+    co2_gdp_plot()
